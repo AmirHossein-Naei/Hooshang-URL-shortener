@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block head %}
+    <title>ورود به پنل مدیریت</title>
+{% endblock %}
+
+{% block body %}
+
+    <div class="container d-flex align-items-center justify-content-center min-vh-100">
+        <div class="card shadow-sm p-4" style="max-width: 400px; width: 100%;">
+            <h4 class="mb-4 text-center">ورود به حساب کاربری</h4>
+            <form>
+
+                <div class="mb-3">
+                    <label for="email" class="form-label">ایمیل</label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="ایمیل را وارد کنید">
+                </div>
+
+                <div class="mb-3">
+                    <label for="password" class="form-label">رمز عبور</label>
+                    <input type="password" class="form-control" id="password" name="password" placeholder="رمز عبور را وارد کنید">
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100">ورود</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
