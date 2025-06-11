@@ -30,3 +30,5 @@ __pycache__/
 
 .idea/**/mongoSettings.xml
 .idea
+
+instance/
