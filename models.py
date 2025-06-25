@@ -1,13 +1,15 @@
 import time
+
+from flask_login import UserMixin
 from sqlalchemy import Column, Integer, String
 from ext import db
 
 def get_current_timestamp():
     return int(time.time())
 
-class User(db.Model):
+class User(db.Model, UserMixin):
     id = Column(Integer, primary_key=True)
-    email = Column(String, nullable=False, index=True)
+    email = Column(String, nullable=False, index=True) # todo: unique
     password = Column(String, nullable=False)
 
     created_at = Column(default=get_current_timestamp)

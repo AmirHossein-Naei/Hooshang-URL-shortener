@@ -7,20 +7,35 @@
 
     <div class="container d-flex align-items-center justify-content-center min-vh-100">
         <div class="card shadow-sm p-4" style="max-width: 400px; width: 100%;">
-            <h4 class="mb-4 text-center">ورود به حساب کاربری</h4>
-            <form>
+            <h4 class="mb-4 text-center">ورود/ثبت نام حساب کاربری</h4>
+            <form action="#" method="post">
 
                 <div class="mb-3">
                     <label for="email" class="form-label">ایمیل</label>
-                    <input type="email" class="form-control" id="email" name="email" placeholder="ایمیل را وارد کنید">
+                    <input type="text" class="form-control" id="email" name="email" placeholder="ایمیل را وارد کنید">
                 </div>
 
                 <div class="mb-3">
                     <label for="password" class="form-label">رمز عبور</label>
-                    <input type="password" class="form-control" id="password" name="password" placeholder="رمز عبور را وارد کنید">
+                    <input type="password" class="form-control" id="password" name="password"
+                           placeholder="رمز عبور را وارد کنید">
                 </div>
 
-                <button type="submit" class="btn btn-primary w-100">ورود</button>
+
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        <div class="alert alert-danger">
+                            <ul>
+                                {% for message in messages %}
+                                    <li>{{ message }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+                {% endwith %}
+
+
+                <button type="submit" class="btn btn-primary w-100">ورود/ثبت نام</button>
             </form>
         </div>
     </div>
