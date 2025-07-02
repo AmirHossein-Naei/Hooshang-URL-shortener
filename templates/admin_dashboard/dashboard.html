@@ -34,8 +34,8 @@
             <tbody>
                 {% for link in current_user.links %}
                     <tr>
-                        <td>{{ link.short_id }}</td>
-                        <td>{{ link.long_url }}</td>
+                        <td><a href="{{ url_for('main.redirect', short_id=link.short_id) }}">{{ link.short_id }}</a></td>
+                        <td><a href="{{ link.long_url }}">{{ link.long_url }}</a></td>
                         <td>{{ link.views }}</td>
                         <td class="unixtime">{{ link.created_at }}</td>
                     </tr>
