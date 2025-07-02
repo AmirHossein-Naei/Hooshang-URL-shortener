@@ -1,10 +1,12 @@
+import random
 import re , hashlib
+import string
 
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_login import login_user, login_required, current_user, logout_user
 
 from ext import db
-from models import User
+from models import User, Link
 
 app = Blueprint('admin_dashboard', __name__)
 
@@ -12,7 +14,7 @@ app = Blueprint('admin_dashboard', __name__)
 @app.route('/')
 @login_required
 def index():
-    return f"Hello, {current_user.email}! You're logged in! <a href='/admin/logout'>Logout</a>"
+    return render_template('admin_dashboard/dashboard.html')
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -55,11 +57,22 @@ def login():
 
         return redirect(url_for('admin_dashboard.index'))
 
-
-        return ""
-
 @app.route('/logout')
 @login_required
 def logout():
     logout_user()
     return redirect(url_for('admin_dashboard.login'))
+
+
+@app.route('/shorten', methods=['POST'])
+@login_required
+def shorten():
+    url = request.json.get('url')
+    short_id = ''.join(random.choices(string.ascii_letters + string.digits, k=4))
+
+    link = Link(short_id=short_id, long_url=url)
+    link.user_id = current_user.id
+    db.session.add(link)
+    db.session.commit()
+
+    return {'shortUrl': request.url_root + short_id}
