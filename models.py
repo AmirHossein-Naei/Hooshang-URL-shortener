@@ -9,7 +9,7 @@ def get_current_timestamp():
 
 class User(db.Model, UserMixin):
     id = Column(Integer, primary_key=True)
-    email = Column(String, nullable=False, index=True) # todo: unique
+    email = Column(String, nullable=False, index=True, unique=True)
     password = Column(String, nullable=False)
 
     created_at = Column(default=get_current_timestamp)
