@@ -4,6 +4,7 @@ from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 
 from blueprints import admin_dashboard
+from blueprints import main
 import ext
 from models import User
 
@@ -23,6 +24,7 @@ def load_user(user_id):
     return User.query.filter(User.id == int(user_id)).first()
 
 app.register_blueprint(admin_dashboard.app, url_prefix='/admin')
+app.register_blueprint(main.app)
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=8080)
