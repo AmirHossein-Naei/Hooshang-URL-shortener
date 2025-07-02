@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% block head %}
+    <title>پنل مدیریت</title>
+{% endblock %}
+
+{% block body %}
+
+    <div class="container mt-5" style="max-width: 500px;">
+        <h1 class="text-center mb-4">کوتاه‌کننده لینک</h1>
+        <form id="urlForm" class="mb-4" >
+            <div class="mb-3">
+                <label for="longUrl" class="form-label">لینک بلند</label>
+                <input type="url" class="form-control" id="longUrl" placeholder="لینک خود را وارد کنید" required>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">کوتاه کردن لینک</button>
+        </form>
+        <div id="result" class="alert alert-success d-none">
+            <strong>لینک کوتاه‌شده:</strong> <a id="shortUrl" href="#" target="_blank"></a>
+        </div>
+        <div id="error" class="result alert alert-danger d-none" ></div>
+    </div>
+
+    <div class="container mt-5" style="max-width: 500px;">
+        <h1 class="text-center mb-4">لینک های ساخته شده</h1>
+       <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>لینک کوتاه</th>
+                    <th>لینک بلند</th>
+                    <th>تعداد بازدید</th>
+                    <th>تاریخ ایجاد</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for link in current_user.links %}
+                    <tr>
+                        <td>{{ link.short_id }}</td>
+                        <td>{{ link.long_url }}</td>
+                        <td>{{ link.views }}</td>
+                        <td class="unixtime">{{ link.created_at }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        document.getElementById('urlForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const longUrl = document.getElementById('longUrl').value;
+            const resultDiv = document.getElementById('result');
+            const shortUrlLink = document.getElementById('shortUrl');
+            const errorDiv = document.getElementById('error');
+
+            try {
+                const response = await fetch('{{ url_for("admin_dashboard.shorten") }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    credentials: 'include',
+                    body: JSON.stringify({url: longUrl}),
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    shortUrlLink.href = data.shortUrl;
+                    shortUrlLink.textContent = data.shortUrl;
+                    resultDiv.classList.remove('d-none');
+                    errorDiv.classList.add('d-none');
+                } else {
+                    throw new Error(data.message || 'خطایی رخ داد');
+                }
+            } catch (error) {
+                errorDiv.textContent = error.message;
+                errorDiv.classList.remove('d-none');
+                resultDiv.classList.add('d-none');
+            }
+        });
+    </script>
+
+{% endblock %}
