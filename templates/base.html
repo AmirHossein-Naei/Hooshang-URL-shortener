@@ -14,5 +14,16 @@
 {% block body %}{% endblock %}
 
 <script src="{{ url_for('static',filename='bootstrap/bootstrap.bundle.min.js') }}"></script>
+<script>
+    document.querySelectorAll('.unixtime').forEach((element) => {
+
+        const fmt = new Intl.DateTimeFormat('fa-IR', {
+            dateStyle: 'short', timeStyle: 'short', calendar: 'persian'
+        });
+        element.textContent = fmt.format(element.textContent * 1000);
+
+    });
+
+</script>
 </body>
 </html>
