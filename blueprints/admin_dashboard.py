@@ -1,5 +1,5 @@
 import random
-import re , hashlib
+import re, hashlib
 import string
 
 from flask import Blueprint, render_template, request, flash, redirect, url_for
@@ -27,7 +27,7 @@ def login():
 
         has_error = False
 
-        if not re.match(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', email) :
+        if not re.match(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', email):
             flash('لطفا ایمیل معتبر وارد کنید')
             has_error = True
 
@@ -38,8 +38,7 @@ def login():
         if has_error:
             return redirect(url_for('admin_dashboard.login'))
 
-
-        user = User.query.filter(User.email==email).first()
+        user = User.query.filter(User.email == email).first()
         if user is None:
             user = User(email=email)
             user.password = hashlib.sha256(password.encode('utf-8')).hexdigest()
@@ -52,10 +51,10 @@ def login():
                 flash('رمز عبور اشتباه است')
                 return redirect(url_for('admin_dashboard.login'))
 
-
         login_user(user, remember=True)
 
         return redirect(url_for('admin_dashboard.index'))
+
 
 @app.route('/logout')
 @login_required
@@ -68,11 +67,18 @@ def logout():
 @login_required
 def shorten():
     url = request.json.get('url')
-    short_id = ''.join(random.choices(string.ascii_letters + string.digits, k=4))
+    short_id = request.json.get('short_id')
+
+    if short_id == "":
+        short_id = ''.join(random.choices(string.ascii_letters + string.digits, k=4))
+
+    check_link = Link.query.filter(Link.short_id == short_id).first()
+    if check_link is not None:
+        return {'status': 'error', 'error': 'شناسه کوتاه تکراری است'}
 
     link = Link(short_id=short_id, long_url=url)
     link.user_id = current_user.id
     db.session.add(link)
     db.session.commit()
 
-    return {'shortUrl': request.url_root + short_id}
+    return {'status': 'success', 'shortUrl': request.url_root + short_id}
