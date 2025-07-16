@@ -1,17 +1,25 @@
-<!doctype html>
-<html lang="fa">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+{% extends 'base.html' %}
+{% block head %}
     <title>در حال انتقال...</title>
-</head>
-<body>
-<h1 style="text-align: center;">در حال انتقال...</h1>
+{% endblock %}
 
-<script>
-    setTimeout(() => {
-        window.location.href = '{{ long_url }}';
-    }, 500);
-</script>
-</body>
-</html>
+{% block body %}
+    <div class="d-flex flex-column justify-content-center align-items-center vh-100 vw-100">
+
+        <div class="d-flex flex-column justify-content-center align-items-center" style="max-width: 500px;min-width: 300px">
+            <h3 class="mb-3">در حال انتقال...</h3>
+            <div class="progress w-100">
+                <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary"
+                     style="width: 100%"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        setTimeout(() => {
+            window.location.href = '{{ long_url }}';
+        }, 500);
+    </script>
+
+{% endblock %}
