@@ -18,7 +18,7 @@ def index():
     return render_template('admin_dashboard/dashboard.html')
 
 
-@app.route('/login', methods=['GET', 'POST'])
+@app.route(config.ADMIN_LOGIN_ROUTE_URL, methods=['GET', 'POST'])
 def login():
     if request.method == "GET":
         return render_template('admin_dashboard/login.html')
