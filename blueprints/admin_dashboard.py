@@ -5,6 +5,7 @@ import string
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_login import login_user, login_required, current_user, logout_user
 
+import config
 from ext import db
 from models import User, Link
 
@@ -40,6 +41,10 @@ def login():
 
         user = User.query.filter(User.email == email).first()
         if user is None:
+            if config.ADMIN_REGISTRATION_IS_ALLOWED is False:
+                flash('ثبت نام ادمین جدید غیر فعال است')
+                return redirect(url_for('admin_dashboard.login'))
+
             user = User(email=email)
             user.password = hashlib.sha256(password.encode('utf-8')).hexdigest()
 
