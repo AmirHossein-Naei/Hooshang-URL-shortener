@@ -46,6 +46,8 @@
             {% endfor %}
             </tbody>
         </table>
+
+    <a href="{{ url_for('admin_dashboard.logout') }}" class="btn btn-danger w-100">خروج از حساب کاربری ({{ current_user.email }})</a>
     </div>
 
     <script>
