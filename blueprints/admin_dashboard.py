@@ -87,3 +87,12 @@ def shorten():
     db.session.commit()
 
     return {'status': 'success', 'shortUrl': request.url_root + short_id}
+
+
+@app.route('/delete/<link_id>', methods=['GET'])
+def delete_link(link_id):
+
+    Link.query.filter(Link.id == link_id).delete()
+    db.session.commit()
+
+    return redirect(url_for('admin_dashboard.index'))

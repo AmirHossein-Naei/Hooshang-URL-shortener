@@ -33,6 +33,7 @@
                 <th>لینک بلند</th>
                 <th>تعداد بازدید</th>
                 <th>تاریخ ایجاد</th>
+                <th>عملیات</th>
             </tr>
             </thead>
             <tbody>
@@ -42,6 +43,7 @@
                     <td><a href="{{ link.long_url }}">{{ link.long_url }}</a></td>
                     <td>{{ link.views }}</td>
                     <td class="unixtime">{{ link.created_at }}</td>
+                <td><a href="{{ url_for('admin_dashboard.delete_link', link_id=link.id) }}" class="text-danger text-decoration-none">حذف</a></td>
                 </tr>
             {% endfor %}
             </tbody>
