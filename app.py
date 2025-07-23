@@ -6,13 +6,14 @@ from flask_sqlalchemy import SQLAlchemy
 from blueprints import admin_dashboard
 from blueprints import main
 import ext
+import config
 from models import User
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = config.SQLALCHEMY_DATABASE_URI
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SECRET_KEY'] = 'ljd829SSS4372398h###sdasdasudh%$^$123123asuidahsd'
+app.config['SECRET_KEY'] = config.SECRET_KEY
 
 ext.db.init_app(app)
 migrate = Migrate(app, ext.db)
