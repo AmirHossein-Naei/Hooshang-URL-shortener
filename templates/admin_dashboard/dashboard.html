@@ -14,7 +14,7 @@
             </div>
             <div class="mb-3">
                 <label for="shortId" class="form-label">شناسه کوتاه</label>
-                <input type="text" class="form-control" id="shortId" placeholder="کلمه مورد نظر را وارد کنید" >
+                <input type="text" class="form-control" id="shortId" placeholder="کلمه مورد نظر را وارد کنید">
             </div>
             <button type="submit" class="btn btn-primary w-100">کوتاه کردن لینک</button>
         </form>
@@ -43,13 +43,18 @@
                     <td><a href="{{ link.long_url }}">{{ link.long_url }}</a></td>
                     <td>{{ link.views }}</td>
                     <td class="unixtime">{{ link.created_at }}</td>
-                <td><a href="{{ url_for('admin_dashboard.delete_link', link_id=link.id) }}" class="text-danger text-decoration-none">حذف</a></td>
+                    <td><a href="{{ url_for('admin_dashboard.delete_link', link_id=link.id) }}"
+                           class="text-decoration-none text-danger">
+                        <i class="bi bi-trash3-fill "></i>
+                    </a>
+                    </td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
 
-    <a href="{{ url_for('admin_dashboard.logout') }}" class="btn btn-danger w-100">خروج از حساب کاربری ({{ current_user.email }})</a>
+        <a href="{{ url_for('admin_dashboard.logout') }}" class="btn btn-danger w-100">خروج از حساب کاربری
+            ({{ current_user.email }})</a>
     </div>
 
     <script>
