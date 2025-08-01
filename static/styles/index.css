@@ -9,3 +9,14 @@
 body {
   font-family: 'Vazirmatn RD', sans-serif;
 }
+.red-tooltip {
+  --bs-tooltip-bg: var(--bs-danger);
+  --bs-tooltip-color: var(--bs-white);
+}
+.blue-tooltip {
+  --bs-tooltip-bg: var(--bs-info);
+  --bs-tooltip-color: var(--bs-white);
+}
+.tooltip {
+  --bs-font-sans-serif : 'Vazirmatn RD', sans-serif;
+}

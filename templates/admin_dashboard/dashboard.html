@@ -39,14 +39,27 @@
             <tbody>
             {% for link in current_user.links %}
                 <tr>
-                    <td><a href="{{ url_for('main.redirect', short_id=link.short_id) }}">{{ link.short_id }}</a></td>
+                    <td>
+
+                        <a target="_blank"
+                           href="{{ url_for('main.redirect', short_id=link.short_id) }}">{{ link.short_id }}</a>
+                    </td>
                     <td><a href="{{ link.long_url }}">{{ link.long_url }}</a></td>
                     <td>{{ link.views }}</td>
                     <td class="unixtime">{{ link.created_at }}</td>
-                    <td><a href="{{ url_for('admin_dashboard.delete_link', link_id=link.id) }}"
-                           class="text-decoration-none text-danger">
-                        <i class="bi bi-trash3-fill "></i>
-                    </a>
+                    <td>
+                        <i class="bi bi-clipboard2-fill text-info btn p-0"
+                           data-bs-toggle="tooltip"
+                           data-bs-custom-class="blue-tooltip" data-bs-placement="bottom"
+                           data-bs-title="کپی لینک کوتاه"
+                           onclick="copyToClipboard('{{ request.url_root }}{{ link.short_id }}')"></i>
+
+                        <a href="{{ url_for('admin_dashboard.delete_link', link_id=link.id) }}"
+                           class="text-decoration-none text-danger" data-bs-toggle="tooltip"
+                           data-bs-custom-class="red-tooltip" data-bs-placement="bottom"
+                           data-bs-title="حذف">
+                            <i class="bi bi-trash3-fill "></i>
+                        </a>
                     </td>
                 </tr>
             {% endfor %}
@@ -98,6 +111,11 @@
                 resultDiv.classList.add('d-none');
             }
         });
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text);
+            alert("کپی شد")
+        }
     </script>
 
 {% endblock %}
