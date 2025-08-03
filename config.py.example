@@ -1,0 +1,8 @@
+# Copy this file to `config.py` and update the values as needed before running the project.
+# Do NOT commit the actual `config.py` file to version control – keep it private.
+
+SECRET_KEY = 'SECRET_KEY'
+SQLALCHEMY_DATABASE_URI = 'sqlite:///database.db'
+
+ADMIN_REGISTRATION_IS_ALLOWED = False
+ADMIN_LOGIN_ROUTE_URL = '/custom_url'
