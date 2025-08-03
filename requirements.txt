@@ -3,3 +3,4 @@ flask-login
 flask-migrate
 flask-sqlalchemy
 Flask-Migrate
+gunicorn
