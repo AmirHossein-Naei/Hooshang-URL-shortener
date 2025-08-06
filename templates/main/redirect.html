@@ -1,12 +1,16 @@
 {% extends 'base.html' %}
 {% block head %}
     <title>در حال انتقال...</title>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+    <meta http-equiv="Pragma" content="no-cache"/>
+    <meta http-equiv="Expires" content="0"/>
 {% endblock %}
 
 {% block body %}
     <div class="d-flex flex-column justify-content-center align-items-center vh-100 vw-100">
 
-        <div class="d-flex flex-column justify-content-center align-items-center" style="max-width: 500px;min-width: 300px">
+        <div class="d-flex flex-column justify-content-center align-items-center"
+             style="max-width: 500px;min-width: 300px">
             <h3 class="mb-3">در حال انتقال...</h3>
             <div class="progress w-100">
                 <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary"
@@ -19,7 +23,7 @@
     <script>
         setTimeout(() => {
             window.location.href = '{{ long_url }}';
-        }, 500);
+        }, 100);
     </script>
 
 {% endblock %}
