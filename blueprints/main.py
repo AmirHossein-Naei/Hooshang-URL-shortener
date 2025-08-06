@@ -8,6 +8,8 @@ app = Blueprint('main', __name__)
 
 @app.route('/<short_id>')
 def redirect(short_id):
+    short_id = short_id.lower()
+
     link = Link.query.filter_by(short_id=short_id).first_or_404()
     link.views += 1
     db.session.commit()

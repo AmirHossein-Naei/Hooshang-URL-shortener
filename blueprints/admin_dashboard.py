@@ -74,6 +74,8 @@ def shorten():
     url = request.json.get('url')
     short_id = request.json.get('short_id')
 
+    short_id = short_id.strip().lower()
+
     if short_id == "":
         short_id = ''.join(random.choices(string.ascii_letters + string.digits, k=4))
 
