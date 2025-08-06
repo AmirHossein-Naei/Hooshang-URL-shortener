@@ -42,7 +42,7 @@
                     <td>
 
                         <a target="_blank"
-                           href="{{ url_for('main.redirect', short_id=link.short_id) }}">{{ link.short_id }}</a>
+                           href="{{ url_for('main.redirect_to_long_url', short_id=link.short_id) }}">{{ link.short_id }}</a>
                     </td>
                     <td><a href="{{ link.long_url }}">{{ link.long_url }}</a></td>
                     <td>{{ link.views }}</td>
