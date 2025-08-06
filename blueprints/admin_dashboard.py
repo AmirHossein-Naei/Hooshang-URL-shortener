@@ -1,11 +1,14 @@
 import random
 import re, hashlib
 import string
+import threading
 
-from flask import Blueprint, render_template, request, flash, redirect, url_for
+import qrcode
+from flask import Blueprint, render_template, request, flash, redirect, url_for, send_file
 from flask_login import login_user, login_required, current_user, logout_user
 
 import config
+import os
 from ext import db
 from models import User, Link
 
@@ -94,8 +97,28 @@ def shorten():
 @app.route('/delete/<link_id>', methods=['GET'])
 @login_required
 def delete_link(link_id):
-
     Link.query.filter(Link.id == link_id, Link.user_id == current_user.id).delete()
     db.session.commit()
 
     return redirect(url_for('admin_dashboard.index'))
+
+
+@app.route('/download-qrcode/<link_id>', methods=['GET'])
+@login_required
+def download_qrcode(link_id):
+    link = Link.query.filter(Link.id == link_id, Link.user_id == current_user.id).first_or_404()
+
+    file_path = f'./tmp/{current_user.id}.{link.short_id}.png'
+    os.makedirs("./tmp/", exist_ok=True)
+    img = qrcode.make(request.url_root + link.short_id)
+    img.save(file_path)
+
+    # deleting image after 10 seconds
+    def remove_file(file_path):
+        if os.path.exists(file_path):
+            os.remove(file_path)
+
+    t = threading.Timer(10, remove_file, (file_path,))
+    t.start()
+
+    return send_file(file_path, mimetype='image/png', as_attachment=True)

@@ -44,22 +44,33 @@
                         <a target="_blank"
                            href="{{ url_for('main.redirect_to_long_url', short_id=link.short_id) }}">{{ link.short_id }}</a>
                     </td>
-                    <td><a href="{{ link.long_url }}">{{ link.long_url }}</a></td>
+                    <td><a class="small" href="{{ link.long_url }}">{{ link.long_url }}</a></td>
                     <td>{{ link.views }}</td>
                     <td class="unixtime">{{ link.created_at }}</td>
                     <td>
-                        <i class="bi bi-clipboard2-fill text-info btn p-0"
-                           data-bs-toggle="tooltip"
-                           data-bs-custom-class="blue-tooltip" data-bs-placement="bottom"
-                           data-bs-title="کپی لینک کوتاه"
-                           onclick="copyToClipboard('{{ request.url_root }}{{ link.short_id }}')"></i>
+                        <div class="d-flex">
+                            <a href="javascript:copyToClipboard('{{ request.url_root }}{{ link.short_id }}')"
+                               class=" text-info btn p-0 mx-1 "
+                               data-bs-toggle="tooltip"
+                               data-bs-custom-class="blue-tooltip" data-bs-placement="bottom"
+                               data-bs-title="کپی لینک کوتاه">
+                                <i class="bi bi-clipboard2-fill fs-4"></i>
+                            </a>
 
-                        <a href="{{ url_for('admin_dashboard.delete_link', link_id=link.id) }}"
-                           class="text-decoration-none text-danger" data-bs-toggle="tooltip"
-                           data-bs-custom-class="red-tooltip" data-bs-placement="bottom"
-                           data-bs-title="حذف">
-                            <i class="bi bi-trash3-fill "></i>
-                        </a>
+                            <a href="{{ url_for('admin_dashboard.delete_link', link_id=link.id) }}"
+                               class="text-decoration-none text-danger mx-1" data-bs-toggle="tooltip"
+                               data-bs-custom-class="red-tooltip" data-bs-placement="bottom"
+                               data-bs-title="حذف">
+                                <i class="bi bi-trash3-fill fs-4"></i>
+                            </a>
+
+                            <a href="{{ url_for('admin_dashboard.download_qrcode', link_id=link.id) }}"
+                               class="text-decoration-none mx-1" data-bs-toggle="tooltip"
+                               data-bs-custom-class="dark-blue-tooltip" data-bs-placement="bottom"
+                               data-bs-title="دانلود QRCode">
+                                <i class="bi bi-qr-code fs-4"></i>
+                            </a>
+                        </div>
                     </td>
                 </tr>
             {% endfor %}
