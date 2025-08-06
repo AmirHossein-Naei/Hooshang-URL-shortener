@@ -92,6 +92,7 @@ def shorten():
 
 
 @app.route('/delete/<link_id>', methods=['GET'])
+@login_required
 def delete_link(link_id):
 
     Link.query.filter(Link.id == link_id, Link.user_id == current_user.id).delete()
