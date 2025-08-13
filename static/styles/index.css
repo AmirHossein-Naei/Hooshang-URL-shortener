@@ -17,10 +17,17 @@ body {
   --bs-tooltip-bg: var(--bs-info);
   --bs-tooltip-color: var(--bs-white);
 }
+.green-tooltip {
+  --bs-tooltip-bg: var(--bs-success);
+  --bs-tooltip-color: var(--bs-white);
+}
 .dark-blue-tooltip {
   --bs-tooltip-bg: var(--bs-primary);
   --bs-tooltip-color: var(--bs-white);
 }
 .tooltip {
   --bs-font-sans-serif : 'Vazirmatn RD', sans-serif;
+}
+.table-active {
+  --bs-table-bg-state: rgba(0, 0, 0, 0.18) ;
 }

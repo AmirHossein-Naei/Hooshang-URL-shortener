@@ -31,58 +31,85 @@
             ({{ current_user.email }})</a>
     </div>
 
-    <div class="container mt-5 " style="max-width:700px;">
+    <div class="container mt-5 " style="max-width:500px;">
         <h1 class="text-center mb-4">لینک های ساخته شده</h1>
         <div class="table-responsive">
-            <table class="table table-striped">
+            <table class="table table-hover">
                 <thead>
                 <tr>
                     <th>توضیحات</th>
                     <th>لینک کوتاه</th>
-                    <th>لینک بلند</th>
-                    <th>تعداد بازدید</th>
-                    <th>تاریخ ایجاد</th>
                     <th>عملیات</th>
                 </tr>
                 </thead>
                 <tbody>
                 {% for link in current_user.links|reverse %}
-                    <tr>
-                        <td>
-                            {{ link.description if link.description != none else "-" }}
+                    <tr {% if loop.index % 2 == 0 %} class="table-active" {% endif %}>
+                        <td class="small text-muted">
+                            {{ link.description if link.description != none and link.description != "" else "-" }}
                         </td>
                         <td>
-
                             <a target="_blank"
                                href="{{ url_for('main.redirect_to_long_url', short_id=link.short_id) }}">{{ link.short_id }}</a>
                         </td>
-                        <td><a class="small" href="{{ link.long_url }}">{{ link.long_url }}</a></td>
-                        <td>{{ link.views }}</td>
-                        <td class="unixtime">{{ link.created_at }}</td>
+
                         <td>
                             <div class="d-flex">
                                 <a href="javascript:copyToClipboard('{{ request.url_root }}{{ link.short_id }}')"
-                                   class=" text-info btn p-0 mx-1 "
+                                   class=" text-success btn p-0 mx-1 "
                                    data-bs-toggle="tooltip"
-                                   data-bs-custom-class="blue-tooltip" data-bs-placement="bottom"
+                                   data-bs-custom-class="green-tooltip" data-bs-placement="bottom"
                                    data-bs-title="کپی لینک کوتاه">
-                                    <i class="bi bi-clipboard2-fill fs-4"></i>
+                                    <i class="bi bi-clipboard fs-6"></i>
                                 </a>
 
-                                <a href="{{ url_for('admin_dashboard.delete_link', link_id=link.id) }}"
+                                <a href="javascript:deleteLink('{{ url_for('admin_dashboard.delete_link', link_id=link.id) }}')"
                                    class="text-decoration-none text-danger mx-1" data-bs-toggle="tooltip"
                                    data-bs-custom-class="red-tooltip" data-bs-placement="bottom"
                                    data-bs-title="حذف">
-                                    <i class="bi bi-trash3-fill fs-4"></i>
+                                    <i class="bi bi-trash3 fs-6"></i>
                                 </a>
 
                                 <a href="{{ url_for('admin_dashboard.download_qrcode', link_id=link.id) }}"
                                    class="text-decoration-none mx-1" data-bs-toggle="tooltip"
                                    data-bs-custom-class="dark-blue-tooltip" data-bs-placement="bottom"
                                    data-bs-title="دانلود QRCode">
-                                    <i class="bi bi-qr-code fs-4"></i>
+                                    <i class="bi bi-qr-code fs-6"></i>
                                 </a>
+
+                                <span data-bs-custom-class="blue-tooltip" data-bs-placement="bottom"
+                                      data-bs-toggle="tooltip"
+                                      data-bs-title="اطلاعات بیشتر">
+                                <a class="text-decoration-none mx-1 text-info" data-bs-toggle="collapse"
+                                   href="#linkCollapseData-{{ link.id }}"
+                                   role="button"
+                                   aria-expanded="false" aria-controls="linkCollapseData-{{ link.id }}">
+                                    <i class="bi bi-info-circle fs-6"></i>
+                                </a>
+                                </span>
+
                             </div>
+                        </td>
+                    </tr>
+                    <tr class="collapse " id="linkCollapseData-{{ link.id }}">
+                        <td colspan="3">
+                            <table class="table table-borderless table-sm ">
+                                <thead>
+                                <tr>
+                                    <th class="small">لینک بلند</th>
+                                    <th class="small">تعداد بازدید</th>
+                                    <th class="small">تاریخ ایجاد</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td class="small"><a class="small"
+                                                         href="{{ link.long_url }}">{{ link.long_url }}</a></td>
+                                    <td class="small">{{ link.views }}</td>
+                                    <td class="unixtime small">{{ link.created_at }}</td>
+                                </tr>
+                                </tbody>
+                            </table>
                         </td>
                     </tr>
                 {% endfor %}
@@ -141,6 +168,12 @@
         function copyToClipboard(text) {
             navigator.clipboard.writeText(text);
             alert(text + " کپی شد");
+        }
+
+        function deleteLink(link) {
+            if (confirm("آیا از حذف این لینک مطمئن هستید؟")) {
+                window.location.href = link
+            }
         }
     </script>
 
