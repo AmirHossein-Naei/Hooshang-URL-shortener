@@ -20,73 +20,76 @@
                 <label for="description" class="form-label">توضیحات</label>
                 <textarea class="form-control" id="description" placeholder="توضیحات خود را وارد کنید"></textarea>
             </div>
+            <div id="result" class="alert alert-primary d-none">
+                <strong>لینک کوتاه‌شده:</strong> <a id="shortUrl" href="#" target="_blank"></a>
+            </div>
+            <div id="error" class="result alert alert-danger d-none"></div>
             <button type="submit" class="btn btn-primary w-100">کوتاه کردن لینک</button>
         </form>
-        <div id="result" class="alert alert-success d-none">
-            <strong>لینک کوتاه‌شده:</strong> <a id="shortUrl" href="#" target="_blank"></a>
-        </div>
-        <div id="error" class="result alert alert-danger d-none"></div>
-    </div>
-
-    <div class="container mt-5" style="max-width: 500px;">
-        <h1 class="text-center mb-4">لینک های ساخته شده</h1>
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th>توضیحات</th>
-                <th>لینک کوتاه</th>
-                <th>لینک بلند</th>
-                <th>تعداد بازدید</th>
-                <th>تاریخ ایجاد</th>
-                <th>عملیات</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for link in current_user.links|reverse %}
-                <tr>
-                    <td>
-                        {{ link.description if link.description != none else "-" }}
-                    </td>
-                    <td>
-
-                        <a target="_blank"
-                           href="{{ url_for('main.redirect_to_long_url', short_id=link.short_id) }}">{{ link.short_id }}</a>
-                    </td>
-                    <td><a class="small" href="{{ link.long_url }}">{{ link.long_url }}</a></td>
-                    <td>{{ link.views }}</td>
-                    <td class="unixtime">{{ link.created_at }}</td>
-                    <td>
-                        <div class="d-flex">
-                            <a href="javascript:copyToClipboard('{{ request.url_root }}{{ link.short_id }}')"
-                               class=" text-info btn p-0 mx-1 "
-                               data-bs-toggle="tooltip"
-                               data-bs-custom-class="blue-tooltip" data-bs-placement="bottom"
-                               data-bs-title="کپی لینک کوتاه">
-                                <i class="bi bi-clipboard2-fill fs-4"></i>
-                            </a>
-
-                            <a href="{{ url_for('admin_dashboard.delete_link', link_id=link.id) }}"
-                               class="text-decoration-none text-danger mx-1" data-bs-toggle="tooltip"
-                               data-bs-custom-class="red-tooltip" data-bs-placement="bottom"
-                               data-bs-title="حذف">
-                                <i class="bi bi-trash3-fill fs-4"></i>
-                            </a>
-
-                            <a href="{{ url_for('admin_dashboard.download_qrcode', link_id=link.id) }}"
-                               class="text-decoration-none mx-1" data-bs-toggle="tooltip"
-                               data-bs-custom-class="dark-blue-tooltip" data-bs-placement="bottom"
-                               data-bs-title="دانلود QRCode">
-                                <i class="bi bi-qr-code fs-4"></i>
-                            </a>
-                        </div>
-                    </td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
 
         <a href="{{ url_for('admin_dashboard.logout') }}" class="btn btn-danger w-100">خروج از حساب کاربری
             ({{ current_user.email }})</a>
+    </div>
+
+    <div class="container mt-5 " style="max-width:700px;">
+        <h1 class="text-center mb-4">لینک های ساخته شده</h1>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>توضیحات</th>
+                    <th>لینک کوتاه</th>
+                    <th>لینک بلند</th>
+                    <th>تعداد بازدید</th>
+                    <th>تاریخ ایجاد</th>
+                    <th>عملیات</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for link in current_user.links|reverse %}
+                    <tr>
+                        <td>
+                            {{ link.description if link.description != none else "-" }}
+                        </td>
+                        <td>
+
+                            <a target="_blank"
+                               href="{{ url_for('main.redirect_to_long_url', short_id=link.short_id) }}">{{ link.short_id }}</a>
+                        </td>
+                        <td><a class="small" href="{{ link.long_url }}">{{ link.long_url }}</a></td>
+                        <td>{{ link.views }}</td>
+                        <td class="unixtime">{{ link.created_at }}</td>
+                        <td>
+                            <div class="d-flex">
+                                <a href="javascript:copyToClipboard('{{ request.url_root }}{{ link.short_id }}')"
+                                   class=" text-info btn p-0 mx-1 "
+                                   data-bs-toggle="tooltip"
+                                   data-bs-custom-class="blue-tooltip" data-bs-placement="bottom"
+                                   data-bs-title="کپی لینک کوتاه">
+                                    <i class="bi bi-clipboard2-fill fs-4"></i>
+                                </a>
+
+                                <a href="{{ url_for('admin_dashboard.delete_link', link_id=link.id) }}"
+                                   class="text-decoration-none text-danger mx-1" data-bs-toggle="tooltip"
+                                   data-bs-custom-class="red-tooltip" data-bs-placement="bottom"
+                                   data-bs-title="حذف">
+                                    <i class="bi bi-trash3-fill fs-4"></i>
+                                </a>
+
+                                <a href="{{ url_for('admin_dashboard.download_qrcode', link_id=link.id) }}"
+                                   class="text-decoration-none mx-1" data-bs-toggle="tooltip"
+                                   data-bs-custom-class="dark-blue-tooltip" data-bs-placement="bottom"
+                                   data-bs-title="دانلود QRCode">
+                                    <i class="bi bi-qr-code fs-4"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
     </div>
 
     <script>
@@ -124,7 +127,9 @@
                     resultDiv.classList.remove('d-none');
                     errorDiv.classList.add('d-none');
                 } else if (data.status === 'error') {
-                    alert(data.error);
+                    errorDiv.textContent = data.error;
+                    errorDiv.classList.remove('d-none');
+                    resultDiv.classList.add('d-none');
                 }
             } catch (error) {
                 errorDiv.textContent = error.message;

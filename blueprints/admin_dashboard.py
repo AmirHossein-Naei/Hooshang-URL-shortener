@@ -82,6 +82,10 @@ def shorten():
 
     if short_id == "":
         short_id = ''.join(random.choices(string.ascii_letters + string.digits, k=4))
+    else:
+        if " " in short_id:
+            return {'status': 'error', 'error': 'شناسه کوتاه نباید فاصله داشته باشد'}
+
 
     check_link = Link.query.filter(Link.short_id == short_id).first()
     if check_link is not None:
