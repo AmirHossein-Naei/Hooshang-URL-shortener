@@ -76,6 +76,7 @@ def logout():
 def shorten():
     url = request.json.get('url')
     short_id = request.json.get('short_id')
+    description = request.json.get('description')
 
     short_id = short_id.strip().lower()
 
@@ -86,7 +87,7 @@ def shorten():
     if check_link is not None:
         return {'status': 'error', 'error': 'شناسه کوتاه تکراری است'}
 
-    link = Link(short_id=short_id, long_url=url)
+    link = Link(short_id=short_id, long_url=url, description=description)
     link.user_id = current_user.id
     db.session.add(link)
     db.session.commit()

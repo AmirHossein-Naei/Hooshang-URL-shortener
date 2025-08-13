@@ -16,6 +16,10 @@
                 <label for="shortId" class="form-label">شناسه کوتاه</label>
                 <input type="text" class="form-control" id="shortId" placeholder="کلمه مورد نظر را وارد کنید">
             </div>
+            <div class="mb-3">
+                <label for="description" class="form-label">توضیحات</label>
+                <textarea class="form-control" id="description" placeholder="توضیحات خود را وارد کنید"></textarea>
+            </div>
             <button type="submit" class="btn btn-primary w-100">کوتاه کردن لینک</button>
         </form>
         <div id="result" class="alert alert-success d-none">
@@ -29,6 +33,7 @@
         <table class="table table-striped">
             <thead>
             <tr>
+                <th>توضیحات</th>
                 <th>لینک کوتاه</th>
                 <th>لینک بلند</th>
                 <th>تعداد بازدید</th>
@@ -39,6 +44,9 @@
             <tbody>
             {% for link in current_user.links|reverse %}
                 <tr>
+                    <td>
+                        {{ link.description if link.description != none else "-" }}
+                    </td>
                     <td>
 
                         <a target="_blank"
@@ -87,6 +95,7 @@
 
             const longUrl = document.getElementById('longUrl').value;
             const shortId = document.getElementById('shortId').value;
+            const description = document.getElementById('description').value;
             const resultDiv = document.getElementById('result');
             const shortUrlLink = document.getElementById('shortUrl');
             const errorDiv = document.getElementById('error');
@@ -101,7 +110,8 @@
                     body: JSON.stringify(
                         {
                             url: longUrl,
-                            short_id: shortId
+                            short_id: shortId,
+                            description: description
                         }
                     ),
                 });

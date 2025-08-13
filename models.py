@@ -23,6 +23,7 @@ class Link(db.Model):
     id = Column(Integer, primary_key=True)
     short_id = Column(String, nullable=False, index=True)
     long_url = Column(String, nullable=False)
+    description = Column(String, nullable=True)
     views = Column(Integer, default=0)
     created_at = Column(default=get_current_timestamp)
 
