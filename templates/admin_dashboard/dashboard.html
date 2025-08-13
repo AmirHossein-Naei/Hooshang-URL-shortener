@@ -37,7 +37,7 @@
             </tr>
             </thead>
             <tbody>
-            {% for link in current_user.links %}
+            {% for link in current_user.links|reverse %}
                 <tr>
                     <td>
 
