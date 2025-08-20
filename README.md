@@ -2,8 +2,7 @@
 
 A powerful and user-friendly URL shortening service built with Python Flask. This application allows users to create short, memorable links and provides an admin dashboard for link management.
 
-
-[![GitHub](https://raw.githubusercontent.com/AmirHossein-Naei/Hooshang-URL-shortener/refs/heads/master/README-IMAGE.png)(https://github.com/AmirHossein-Naei/Hooshang-URL-shortener)
+![](https://raw.githubusercontent.com/AmirHossein-Naei/Hooshang-URL-shortener/refs/heads/master/README-IMAGE.png)
 
 
 ## Features
